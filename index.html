@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -11,31 +12,85 @@
             box-sizing: border-box;
         }
 
+        html,
         body {
             margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
             font-family: Arial, sans-serif;
             background: #f5f1ec;
         }
 
+        /* HEADER */
         header {
             background: #59351f;
             color: white;
-            padding: 20px;
+            height: 70px;
+            padding: 10px;
             text-align: center;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 20px;
+        header h1 {
+            margin: 0;
+            font-size: 22px;
         }
 
-        iframe {
+        header p {
+            margin: 5px 0 0;
+            font-size: 14px;
+        }
+
+        /* CONTAINER */
+        .container {
             width: 100%;
-            height: 800px;
-            border: 0;
+            max-width: none;
+            height: calc(100vh - 70px);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* APPS SCRIPT */
+        iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: none;
+            margin: 0;
+            padding: 0;
             background: white;
-            border-radius: 15px;
+            border-radius: 0;
+        }
+
+        /* HP / TABLET */
+        @media screen and (max-width: 768px) {
+
+            header {
+                height: 55px;
+                padding: 7px 5px;
+            }
+
+            header h1 {
+                font-size: 16px;
+            }
+
+            header p {
+                font-size: 11px;
+                margin-top: 2px;
+            }
+
+            .container {
+                height: calc(100vh - 55px);
+            }
+
+            iframe {
+                width: 100%;
+                height: 100%;
+            }
         }
     </style>
 </head>
@@ -43,17 +98,19 @@
 <body>
 
 <header>
-    <h1>FURNIFAN - DAFTAR HARGA</h1>
+    <h1>DAFTAR HARGA PABRIK</h1>
     <p>Furnifan Mebel Surabaya</p>
 </header>
 
 <div class="container">
 
     <iframe
-        src="https://script.google.com/macros/s/AKfycbwcdcwmbz4f8QyKfPzGfeLJzb-LHldHYq3cLgeN_5UB7L33KKa_bHZdcWgLFqzNnaYT9g/exec">
+        src="https://script.google.com/macros/s/AKfycbwcdcwmbz4f8QyKfPzGfeLJzb-LHldHYq3cLgeN_5UB7L33KKa_bHZdcWgLFqzNnaYT9g/exec"
+        allowfullscreen>
     </iframe>
 
 </div>
 
 </body>
 </html>
+```
