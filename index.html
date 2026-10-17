@@ -1,10 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Furnifan Mebel Surabaya</title>
+    <title>Catatan Kiriman Pabrik Furnifan Mebel Surabaya</title>
 
     <style>
         * {
@@ -17,15 +18,30 @@
             padding: 0;
             width: 100%;
             height: 100%;
+            min-height: 100%;
             overflow: hidden;
         }
 
         body {
             font-family: Arial, sans-serif;
-            background: #f5f1ec;
+            background: #ffffff;
         }
-       
-        /* APPS SCRIPT */
+
+        /* CONTAINER MEMENUHI SELURUH LAYAR */
+        .container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            height: 100vh;
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* APLIKASI GOOGLE APPS SCRIPT */
         iframe {
             display: block;
             width: 100%;
@@ -33,29 +49,16 @@
             border: none;
             margin: 0;
             padding: 0;
-            background: white;
-            border-radius: 0;
+            background: #ffffff;
         }
 
-        /* HP / TABLET */
+        /* HP DAN TABLET */
         @media screen and (max-width: 768px) {
-
-            header {
-                height: 55px;
-                padding: 7px 5px;
-            }
-
-            header h1 {
-                font-size: 16px;
-            }
-
-            header p {
-                font-size: 11px;
-                margin-top: 2px;
-            }
-
             .container {
-                height: calc(100vh - 55px);
+                width: 100%;
+                height: 100%;
+                height: 100vh;
+                height: 100dvh;
             }
 
             iframe {
@@ -68,14 +71,13 @@
 
 <body>
 
-<div class="container">
-
-    <iframe
-        src="https://script.google.com/macros/s/AKfycbwcdcwmbz4f8QyKfPzGfeLJzb-LHldHYq3cLgeN_5UB7L33KKa_bHZdcWgLFqzNnaYT9g/exec"
-        allowfullscreen>
-    </iframe>
-
-</div>
+    <div class="container">
+        <iframe
+            src="https://script.google.com/macros/s/AKfycbwcdcwmbz4f8QyKfPzGfeLJzb-LHldHYq3cLgeN_5UB7L33KKa_bHZdcWgLFqzNnaYT9g/exec"
+            allowfullscreen>
+        </iframe>
+    </div>
 
 </body>
 </html>
+```
