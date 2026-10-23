@@ -4,8 +4,8 @@ const SHELL = [
   './',
   './index.html',
   './manifest.json',
-  './icon-192.png',
-  './icon-512.png'
+  './png-192.png',
+  './png-512.png'
 ];
 
 // Instalasi service worker dan cache file utama
