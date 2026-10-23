@@ -1,222 +1,48 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0f766e">
-  <meta name="description" content="Daftar Harga Pabrik Furnifan Mebel Surabaya">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Harga Pabrik Furnifan Mebel Surabaya</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="./manifest.json">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0f766e">
+    
+    <!-- Ikon Aplikasi -->
+    <link rel="png" type="image/png" sizes="192x192" href="./png-192.png">
+    <link rel="apple-touch-icon" href="./png-192.png">
 
-  <title>Daftar Harga Pabrik Furnifan Mebel Surabayaa</title>
-
-  <!-- PWA -->
-  <link rel="manifest" href="./manifest.json">
-
-  <!-- Ikon aplikasi -->
-  <link rel="icon" type="image/png" sizes="192x192" href="./png-192.png">
-  <link rel="apple-touch-icon" href="./png-192.png">
-
-  <!-- Pengaturan iPhone -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Daftar Harga Pabrik Furnifan">
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background: #ffffff;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    body {
-      overscroll-behavior: none;
-    }
-
-    .app {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      height: 100vh;
-      height: 100dvh;
-      overflow: hidden;
-      background: #ffffff;
-    }
-
-    .app-frame {
-      display: block;
-      width: 100%;
-      height: 100%;
-      border: 0;
-      margin: 0;
-      padding: 0;
-      background: #ffffff;
-    }
-
-    .install {
-      position: fixed;
-      right: 14px;
-      bottom: max(14px, env(safe-area-inset-bottom));
-      z-index: 1000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      border: 0;
-      border-radius: 999px;
-      background: #0f766e;
-      color: #ffffff;
-      padding: 12px 17px;
-      font-size: 14px;
-      font-weight: 700;
-      box-shadow: 0 4px 16px #0003;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .install:active {
-      transform: scale(0.97);
-    }
-
-    .install:focus-visible {
-      outline: 3px solid #99f6e4;
-      outline-offset: 3px;
-    }
-
-    .install[hidden] {
-      display: none !important;
-    }
-
-    @media (max-width: 768px) {
-      .install {
-        right: 10px;
-        bottom: max(10px, env(safe-area-inset-bottom));
-        padding: 11px 14px;
-        font-size: 13px;
-      }
-    }
-  </style>
-
-  <!-- Daftarkan Service Worker -->
-  <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function () {
-        navigator.serviceWorker
-          .register("./sw.js")
-          .then(function (registration) {
-            console.log(
-              "Service Worker aktif:",
-              registration.scope
-            );
-          })
-          .catch(function (error) {
-            console.error(
-              "Service Worker gagal didaftarkan:",
-              error
-            );
-          });
-      });
-    }
-  </script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
 </head>
-
 <body>
-  <main class="app">
-    <iframe
-      id="appFrame"
-      class="app-frame"
-      src="https://script.google.com/macros/s/AKfycbyEHdmm72dV8Kq151zerYO05aNGw8_MPSzL4f5RRDm1m2oCBVcA7evscc2PSIs97sQmNg/exec"
-      title="Daftar Harga Pabrik Furnifan Mebel Surabaya"
-      allowfullscreen>
-    </iframe>
-  </main>
 
-  <!-- Tombol pemasangan aplikasi -->
-  <button
-    id="installBtn"
-    class="install"
-    type="button"
-    hidden>
-    <span aria-hidden="true">＋</span>
-    <span>Pasang Aplikasi</span>
-  </button>
+    <!-- Masukkan URL Google Apps Script Anda di atribut src -->
+    <iframe src="https://script.google.com/macros/s/AKfycbyEHdmm72dV8Kq151zerYO05aNGw8_MPSzL4f5RRDm1m2oCBVcA7evscc2PSIs97sQmNg/exec"></iframe>
 
-  <script>
-    (function () {
-      "use strict";
-
-      let installPrompt = null;
-
-      const installBtn = document.getElementById("installBtn");
-
-      function showInstallButton() {
-        installBtn.hidden = false;
-      }
-
-      function hideInstallButton() {
-        installBtn.hidden = true;
-      }
-
-      // Browser yang mendukung pemasangan PWA
-      window.addEventListener("beforeinstallprompt", function (event) {
-        event.preventDefault();
-
-        installPrompt = event;
-        showInstallButton();
-      });
-
-      // Jalankan pemasangan setelah pengguna menekan tombol
-      installBtn.addEventListener("click", async function () {
-        if (!installPrompt) {
-          alert(
-            "Pemasangan otomatis tidak tersedia di browser ini.\n\n" +
-            "Di Chrome atau Edge, buka menu browser lalu pilih " +
-            "\"Install app\" atau \"Instal aplikasi\" jika tersedia.\n\n" +
-            "Di iPhone, buka menu Bagikan lalu pilih " +
-            "\"Tambahkan ke Layar Utama\"."
-          );
-          return;
+    <!-- Registrasi Service Worker PWA -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker berhasil didaftarkan:', reg.scope))
+                    .catch(err => console.log('Pendaftaran Service Worker gagal:', err));
+            });
         }
-
-        const promptEvent = installPrompt;
-
-        installPrompt = null;
-        installBtn.disabled = true;
-
-        try {
-          await promptEvent.prompt();
-
-          const result = await promptEvent.userChoice;
-
-          if (result && result.outcome === "accepted") {
-            hideInstallButton();
-          } else {
-            showInstallButton();
-          }
-        } catch (error) {
-          console.error("Pemasangan gagal:", error);
-          showInstallButton();
-        } finally {
-          installBtn.disabled = false;
-        }
-      });
-
-      // Sembunyikan tombol setelah aplikasi berhasil dipasang
-      window.addEventListener("appinstalled", function () {
-        installPrompt = null;
-        hideInstallButton();
-
-        console.log("Aplikasi Furnifan berhasil dipasang.");
-      });
-    })();
-  </script>
+    </script>
 </body>
 </html>
