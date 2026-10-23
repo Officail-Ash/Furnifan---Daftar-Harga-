@@ -3,7 +3,7 @@
   "name": "Daftar Harga Furnifan Mebel Surabaya",
   "short_name": "Daftar Harga",
   "description": "Aplikasi daftar harga Furnifan Mebel Surabaya",
-  "start_url": "./",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
