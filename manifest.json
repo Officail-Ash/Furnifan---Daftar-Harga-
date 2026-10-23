@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Catatan Kiriman Pabrik Furnifan Mebel Surabaya",
-  "short_name": "Catatan Furnifan",
-  "description": "Catatan Kiriman Pabrik Furnifan Mebel Surabaya",
+  "name": "Daftar Harga Pabrik Furnifan Mebel Surabaya",
+  "short_name": "Daftar Harga Pabrik",
+  "description": "Daftar Harga Pabrik Furnifan Mebel Surabaya",
   "lang": "id-ID",
   "start_url": "./index.html",
   "scope": "./",
