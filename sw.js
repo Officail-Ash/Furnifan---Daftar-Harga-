@@ -1,5 +1,5 @@
 const CACHE_NAME = "furnifan-daftar-harga-v1";
-const SHELL = ["./", "./index.html", "./manifest.json", "./icons/icon-192.png", "./icons/icon-512.png"];
+const SHELL = ["./", "./index.html", "./manifest.json", "./icon-192.png", "./icon-512.png"];
 // Instalasi service worker dan cache file utama
 self.addEventListener('install', event => {
   event.waitUntil(
