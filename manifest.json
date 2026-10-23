@@ -1,5 +1,5 @@
 {
-  "id": "./",
+  "id": "./index.html",
   "name": "Daftar Harga Pabrik Furnifan Mebel Surabaya",
   "short_name": "Daftar Harga Pabrik",
   "description": "Daftar Harga Pabrik Furnifan Mebel Surabaya",
@@ -21,7 +21,13 @@
       "src": "./png-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "./png-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
