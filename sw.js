@@ -1,4 +1,3 @@
-
 "use strict";
 
 const CACHE_NAME = "furnifan-daftar-harga-pwa-v3";
