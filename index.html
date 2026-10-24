@@ -76,13 +76,11 @@
       position: absolute;
       inset: 0;
       z-index: 2;
-
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 15px;
-
       padding: 24px;
       text-align: center;
       background: #f8fbff;
@@ -100,7 +98,11 @@
       align-items: center;
       justify-content: center;
       border-radius: 20px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-light)
+      );
       box-shadow: 0 8px 24px rgba(22, 58, 112, .20);
     }
 
@@ -116,7 +118,7 @@
     }
 
     .loading-subtitle {
-      max-width: 280px;
+      max-width: 300px;
       color: var(--muted);
       font-size: 12px;
       line-height: 1.7;
@@ -143,28 +145,24 @@
       align-items: center;
       justify-content: center;
       gap: 9px;
-
       position: fixed;
-      right: 22px;
+      left: 22px;
+      right: auto;
       bottom: max(22px, env(safe-area-inset-bottom));
       z-index: 9999;
-
       padding: 14px 20px;
       border: 1px solid rgba(255, 255, 255, .3);
       border-radius: 50px;
-
       background: linear-gradient(
         135deg,
         var(--primary-dark),
         var(--primary-light)
       );
-
       color: #ffffff;
       font-family: inherit;
       font-size: 13px;
       font-weight: 700;
       letter-spacing: .15px;
-
       box-shadow: 0 6px 22px rgba(22, 58, 112, .32);
       cursor: pointer;
       transition: transform .2s, box-shadow .2s, opacity .2s;
@@ -198,7 +196,8 @@
     /* TAMPILAN PONSEL */
     @media (max-width: 600px) {
       #installBtn {
-        right: 14px;
+        left: 14px;
+        right: auto;
         bottom: max(16px, env(safe-area-inset-bottom));
         padding: 12px 16px;
         font-size: 12px;
@@ -211,9 +210,11 @@
       }
     }
 
+    /* PONSEL DENGAN LAYAR SANGAT KECIL */
     @media (max-width: 350px) {
       #installBtn {
-        right: 10px;
+        left: 10px;
+        right: auto;
         bottom: max(12px, env(safe-area-inset-bottom));
         padding: 11px 14px;
       }
@@ -232,6 +233,7 @@
 
 <body>
   <main>
+    <!-- LAYAR PEMUATAN -->
     <div id="loading" role="status" aria-live="polite">
       <div class="loading-logo" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none"
@@ -253,11 +255,12 @@
       <div class="spinner" aria-hidden="true"></div>
 
       <div class="loading-subtitle">
-        Menghubungkan ke sistem daftar harga.<br>
+        Menghubungkan ke sistem daftar harga.
         Mohon tunggu sebentar...
       </div>
     </div>
 
+    <!-- APLIKASI GOOGLE APPS SCRIPT -->
     <iframe
       id="appFrame"
       title="Aplikasi Daftar Harga Furnifan"
@@ -267,25 +270,33 @@
     </iframe>
   </main>
 
-  <!-- TOMBOL MENGAMBANG -->
+  <!-- TOMBOL INSTAL DI POJOK KIRI BAWAH -->
   <button id="installBtn" type="button">
-    <svg class="install-icon" viewBox="0 0 24 24"
-         fill="none" xmlns="http://www.w3.org/2000/svg"
+    <svg class="install-icon"
+         viewBox="0 0 24 24"
+         fill="none"
+         xmlns="http://www.w3.org/2000/svg"
          aria-hidden="true">
       <path d="M12 3V15M7 10L12 15L17 10"
-            stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round"/>
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
       <path d="M5 16V20H19V16"
-            stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round"/>
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
     </svg>
     <span>Instal Aplikasi</span>
   </button>
 
   <script>
+    "use strict";
+
     /*
       URL WEB APP KHUSUS DAFTAR HARGA FURNIFAN.
-      Jangan menggantinya dengan URL aplikasi lain.
+      Pastikan URL ini merupakan deployment yang benar.
     */
     const APP_URL =
       "https://script.google.com/macros/s/AKfycbxZuDolnexDtjynYWGDmisx3OM3EyFQYVE3p_cEGHt2Fz6uF7A8uCMAUrs0wiAUViWELQ/exec";
@@ -293,30 +304,74 @@
     const frame = document.getElementById("appFrame");
     const loading = document.getElementById("loading");
     const installBtn = document.getElementById("installBtn");
+    const loadingTitle = loading.querySelector(".loading-title");
+    const loadingSubtitle = loading.querySelector(".loading-subtitle");
+    const spinner = loading.querySelector(".spinner");
 
-    // Memuat aplikasi utama.
-    if (APP_URL.startsWith("https://script.google.com/")) {
-      frame.src = APP_URL;
-
-      frame.addEventListener("load", () => {
-        loading.classList.add("hidden");
-      });
-    } else {
-      loading.querySelector(".loading-title").textContent =
-        "URL aplikasi belum benar";
-
-      loading.querySelector(".loading-subtitle").textContent =
-        "Periksa URL Web App Google Apps Script.";
-    }
-
-    // Dukungan instalasi PWA pada browser yang mendukungnya.
+    let loadingFinished = false;
+    let loadingTimeout = null;
     let installPrompt = null;
 
+    /* MENYELESAIKAN TAMPILAN PEMUATAN */
+    function finishLoading() {
+      if (loadingFinished) return;
+
+      loadingFinished = true;
+
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+      }
+
+      loading.classList.add("hidden");
+    }
+
+    /* MEMUAT APLIKASI UTAMA */
+    if (
+      APP_URL.startsWith("https://script.google.com/macros/s/") &&
+      APP_URL.endsWith("/exec")
+    ) {
+      frame.addEventListener("load", () => {
+        finishLoading();
+      }, { once: true });
+
+      loadingTimeout = setTimeout(() => {
+        if (loadingFinished) return;
+
+        loadingTitle.textContent =
+          "Aplikasi membutuhkan waktu lebih lama";
+
+        loadingSubtitle.textContent =
+          "Periksa koneksi internet. Jika aplikasi belum terbuka, " +
+          "muat ulang halaman.";
+
+        if (spinner) {
+          spinner.style.display = "none";
+        }
+      }, 25000);
+
+      frame.src = APP_URL;
+    } else {
+      loadingTitle.textContent = "URL aplikasi belum benar";
+      loadingSubtitle.textContent =
+        "Periksa URL Web App Google Apps Script.";
+
+      if (spinner) {
+        spinner.style.display = "none";
+      }
+    }
+
+    /*
+      Jika iframe baru selesai dimuat setelah pesan timeout tampil,
+      finishLoading() tetap menyembunyikan layar pemuatan.
+    */
+
+    /* MENERIMA PROMPT INSTALASI PWA */
     window.addEventListener("beforeinstallprompt", (event) => {
       event.preventDefault();
       installPrompt = event;
     });
 
+    /* TOMBOL INSTALASI */
     installBtn.addEventListener("click", async () => {
       if (installPrompt) {
         const promptEvent = installPrompt;
@@ -327,7 +382,7 @@
           await promptEvent.prompt();
           await promptEvent.userChoice;
         } catch (error) {
-          console.error("Instalasi PWA:", error);
+          console.error("Instalasi PWA gagal:", error);
         } finally {
           installBtn.disabled = false;
         }
@@ -335,7 +390,7 @@
         return;
       }
 
-      // Petunjuk untuk browser yang tidak menyediakan prompt otomatis.
+      /* PETUNJUK UNTUK BROWSER TANPA PROMPT OTOMATIS */
       const ua = navigator.userAgent || "";
       const isIOS = /iphone|ipad|ipod/i.test(ua);
       const isAndroid = /android/i.test(ua);
@@ -365,11 +420,12 @@
       }
     });
 
+    /* SETELAH PWA BERHASIL DIPASANG */
     window.addEventListener("appinstalled", () => {
       installPrompt = null;
     });
 
-    // Service worker khusus aplikasi Daftar Harga Furnifan.
+    /* MENDAFTARKAN SERVICE WORKER */
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker.register("./sw.js", {
