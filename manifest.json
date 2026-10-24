@@ -1,8 +1,9 @@
+
 {
   "id": "./",
   "name": "Daftar Harga Furnifan",
   "short_name": "Harga Furnifan",
-  "description": "Aplikasi daftar harga furniture Furnifan",
+  "description": "Aplikasi Daftar Harga Pabrik Furnifan Mebel Surabaya",
   "lang": "id-ID",
   "start_url": "./index.html",
   "scope": "./",
