@@ -1,37 +1,208 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Daftar Harga Furnifan Mebel Surabaya">
-<link rel="manifest" href="./manifest.json">
-<link rel="icon" href="./icon-192.png">
-<style>
-*{box-sizing:border-box}html,body{margin:0;height:100%;font-family:system-ui,sans-serif;background:#f4f7f4;color:#173321}
-header{height:54px;display:flex;align-items:center;padding:0 16px;background:#166534;color:white;font-weight:700}
-main{height:calc(100dvh - 54px)}iframe{width:100%;height:100%;border:0;background:white}
-.notice{padding:18px;max-width:700px;margin:8vh auto;background:white;border-radius:12px;box-shadow:0 4px 20px #0001}
-button{padding:10px 16px;border:0;border-radius:8px;background:#166534;color:white;font-weight:600}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="description" content="Daftar Harga Pabrik Furnifan Mebel Surabaya">
+
+  <title>Daftar Harga Furnifan</title>
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+
+  <style>
+    :root {
+      --primary: #0f766e;
+      --bg: #f1f5f9;
+      --header-height: 58px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+      min-height: 0;
+    }
+
+    header {
+      min-height: var(--header-height);
+      padding: 8px 14px;
+      padding-top: max(8px, env(safe-area-inset-top));
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 2px 8px #0002;
+      z-index: 2;
+    }
+
+    .brand {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .brand small {
+      display: block;
+      font-size: 11px;
+      font-weight: 400;
+      opacity: .9;
+    }
+
+    #installBtn {
+      display: none;
+      flex-shrink: 0;
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: white;
+      color: var(--primary);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    main {
+      flex: 1;
+      min-height: 0;
+      position: relative;
+      background: white;
+    }
+
+    #appFrame {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: white;
+    }
+
+    #loading {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      background: white;
+      color: #475569;
+      font-size: 14px;
+    }
+
+    #loading.hidden { display: none; }
+
+    @media (max-width: 480px) {
+      header {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      .brand { font-size: 13px; }
+      .brand small { font-size: 10px; }
+      #installBtn { padding: 9px; font-size: 12px; }
+    }
+  </style>
 </head>
+
 <body>
-<main id="main"></main>
-<script>
-/* GANTI dengan URL web app Apps Script yang sudah di-deploy (/exec). */
-const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxXO7QNfeFL8LlXmvbCdFOLTlKJk4upt2Nbn_7eRgmR2dArntQNKeCvluJ3aCFKOlbqTw/exec";
-const main=document.getElementById('main');
-if(GAS_WEB_APP_URL.startsWith('https://script.google.com/')) {
-  const frame=document.createElement('iframe');
-  frame.title='Aplikasi Daftar Harga Furnifan';
-  frame.allow='camera; clipboard-read; clipboard-write';
-  frame.src=GAS_WEB_APP_URL;
-  main.appendChild(frame);
-} else {
-  main.innerHTML='<section class="notice"><h2>Hubungkan aplikasi</h2><p>Di file <code>index.html</code>, ganti <code>PASTE_URL_WEB_APP_APPS_SCRIPT_DI_SINI</code> dengan URL deployment Web App Apps Script Anda yang berakhiran <code>/exec</code>.</p><p>Setelah itu simpan perubahan dan unggah ulang ke GitHub Pages.</p></section>';
-}
-if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.warn));
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;});
-</script>
+  <header>
+    <div class="brand">
+      DAFTAR HARGA FURNIFAN
+      <small>Mebel Surabaya</small>
+    </div>
+
+    <button id="installBtn" type="button">⬇ Instal Aplikasi</button>
+  </header>
+
+  <main>
+    <div id="loading">Menghubungkan ke aplikasi Furnifan...</div>
+
+    <iframe
+      id="appFrame"
+      title="Aplikasi Daftar Harga Furnifan"
+      allow="clipboard-read; clipboard-write"
+      referrerpolicy="strict-origin-when-cross-origin"
+      loading="eager">
+    </iframe>
+  </main>
+
+  <script>
+    /*
+      GANTI URL DI BAWAH DENGAN URL WEB APP APPS SCRIPT
+      KHUSUS DAFTAR HARGA PABRIK FURNIFAN.
+    */
+    const APP_URL =
+      "https://script.google.com/macros/s/AKfycbxXO7QNfeFL8LlXmvbCdFOLTlKJk4upt2Nbn_7eRgmR2dArntQNKeCvluJ3aCFKOlbqTw/exec";
+
+    const frame = document.getElementById("appFrame");
+    const loading = document.getElementById("loading");
+    const installBtn = document.getElementById("installBtn");
+
+    if (!APP_URL.startsWith("https://script.google.com/")) {
+      loading.textContent =
+        "URL Apps Script belum diatur. Silakan periksa konfigurasi index.html.";
+    } else {
+      frame.src = APP_URL;
+
+      frame.addEventListener("load", () => {
+        loading.classList.add("hidden");
+      });
+    }
+
+    let installPrompt = null;
+
+    window.addEventListener("beforeinstallprompt", (event) => {
+      event.preventDefault();
+      installPrompt = event;
+      installBtn.style.display = "block";
+    });
+
+    installBtn.addEventListener("click", async () => {
+      if (!installPrompt) {
+        alert(
+          "Jika tombol instalasi tidak tersedia, gunakan menu browser: " +
+          "Instal aplikasi atau Tambahkan ke Layar Utama."
+        );
+        return;
+      }
+
+      installPrompt.prompt();
+      await installPrompt.userChoice;
+      installPrompt = null;
+      installBtn.style.display = "none";
+    });
+
+    window.addEventListener("appinstalled", () => {
+      installBtn.style.display = "none";
+      installPrompt = null;
+    });
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js", {
+          scope: "./"
+        }).catch((error) => {
+          console.error("Service worker gagal:", error);
+        });
+      });
+    }
+  </script>
 </body>
 </html>
