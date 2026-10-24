@@ -1,5 +1,5 @@
-const CACHE_NAME = "furnifan-daftar-harga-pwa-v1";
-  
+const CACHE_NAME = "furnifan-daftar-harga-pwa-v2";
+
 const APP_FILES = [
   "./",
   "./index.html",
@@ -8,6 +8,7 @@ const APP_FILES = [
   "./icon-512.png"
 ];
 
+// Instalasi service worker dan penyimpanan file pembungkus.
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -16,6 +17,7 @@ self.addEventListener("install", (event) => {
   );
 });
 
+// Hapus cache versi lama milik Daftar Harga saja.
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys()
@@ -31,11 +33,13 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+// Jaringan sebagai sumber utama; cache sebagai cadangan.
 self.addEventListener("fetch", (event) => {
   const request = event.request;
   const url = new URL(request.url);
 
-  // Hanya cache file milik GitHub Pages pada scope aplikasi ini.
+  // Jangan mengganggu POST atau permintaan lintas domain,
+  // termasuk permintaan ke Google Apps Script.
   if (
     request.method !== "GET" ||
     url.origin !== self.location.origin
@@ -48,19 +52,29 @@ self.addEventListener("fetch", (event) => {
       .then((response) => {
         if (response.ok) {
           const copy = response.clone();
+
           caches.open(CACHE_NAME)
             .then((cache) => cache.put(request, copy))
-            .catch(() => {});
+            .catch((error) => {
+              console.warn("Penyimpanan cache gagal:", error);
+            });
         }
+
         return response;
       })
       .catch(async () => {
         const cached = await caches.match(request);
-        if (cached) return cached;
+
+        if (cached) {
+          return cached;
+        }
 
         if (request.mode === "navigate") {
           const shell = await caches.match("./index.html");
-          if (shell) return shell;
+
+          if (shell) {
+            return shell;
+          }
         }
 
         return Response.error();
