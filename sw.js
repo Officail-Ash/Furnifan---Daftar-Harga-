@@ -1,4 +1,7 @@
-const CACHE_NAME = "furnifan-daftar-harga-pwa-v2";
+
+"use strict";
+
+const CACHE_NAME = "furnifan-daftar-harga-pwa-v3";
 
 const APP_FILES = [
   "./",
@@ -8,7 +11,7 @@ const APP_FILES = [
   "./icon-512.png"
 ];
 
-// Instalasi service worker dan penyimpanan file pembungkus.
+/* MEMASANG SERVICE WORKER BARU */
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -17,67 +20,97 @@ self.addEventListener("install", (event) => {
   );
 });
 
-// Hapus cache versi lama milik Daftar Harga saja.
+/* MENGHAPUS CACHE VERSI LAMA */
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(
-        keys
-          .filter((key) =>
-            key.startsWith("furnifan-daftar-harga-pwa-") &&
-            key !== CACHE_NAME
-          )
-          .map((key) => caches.delete(key))
-      ))
+      .then((cacheNames) => {
+        return Promise.all(
+          cacheNames
+            .filter((name) =>
+              name.startsWith("furnifan-daftar-harga-pwa-") &&
+              name !== CACHE_NAME
+            )
+            .map((name) => caches.delete(name))
+        );
+      })
       .then(() => self.clients.claim())
   );
 });
 
-// Jaringan sebagai sumber utama; cache sebagai cadangan.
+/* MEMUAT FILE DARI INTERNET, DENGAN CADANGAN CACHE */
 self.addEventListener("fetch", (event) => {
   const request = event.request;
+
+  if (request.method !== "GET") return;
+
   const url = new URL(request.url);
 
-  // Jangan mengganggu POST atau permintaan lintas domain,
-  // termasuk permintaan ke Google Apps Script.
-  if (
-    request.method !== "GET" ||
-    url.origin !== self.location.origin
-  ) {
+  // Hanya menangani file dari repositori PWA ini.
+  // URL Google Apps Script tidak di-cache oleh service worker ini.
+  if (url.origin !== self.location.origin) return;
+
+  // Permintaan halaman: coba jaringan terlebih dahulu.
+  if (request.mode === "navigate") {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const copy = response.clone();
+
+            caches.open(CACHE_NAME)
+              .then((cache) => cache.put(request, copy))
+              .catch((error) => {
+                console.warn("Cache halaman gagal:", error);
+              });
+          }
+
+          return response;
+        })
+        .catch(async () => {
+          const cached = await caches.match(request);
+
+          if (cached) return cached;
+
+          const fallback = await caches.match("./index.html");
+
+          if (fallback) return fallback;
+
+          return new Response(
+            "Koneksi internet tidak tersedia. Silakan coba kembali.",
+            {
+              status: 503,
+              headers: {
+                "Content-Type": "text/plain; charset=utf-8"
+              }
+            }
+          );
+        })
+    );
+
     return;
   }
 
+  // File pendukung: gunakan cache jika tersedia,
+  // sambil memperbarui cache dari jaringan.
   event.respondWith(
-    fetch(request)
-      .then((response) => {
-        if (response.ok) {
-          const copy = response.clone();
+    caches.match(request).then((cached) => {
+      const networkRequest = fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const copy = response.clone();
 
-          caches.open(CACHE_NAME)
-            .then((cache) => cache.put(request, copy))
-            .catch((error) => {
-              console.warn("Penyimpanan cache gagal:", error);
-            });
-        }
-
-        return response;
-      })
-      .catch(async () => {
-        const cached = await caches.match(request);
-
-        if (cached) {
-          return cached;
-        }
-
-        if (request.mode === "navigate") {
-          const shell = await caches.match("./index.html");
-
-          if (shell) {
-            return shell;
+            caches.open(CACHE_NAME)
+              .then((cache) => cache.put(request, copy))
+              .catch((error) => {
+                console.warn("Pembaruan cache gagal:", error);
+              });
           }
-        }
 
-        return Response.error();
-      })
+          return response;
+        });
+
+      return cached || networkRequest;
+    })
   );
 });
