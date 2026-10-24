@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -17,14 +18,11 @@
     :root {
       --primary: #163a70;
       --primary-dark: #10294f;
-      --primary-light: #2459a9;
-      --accent: #60a5fa;
+      --primary-light: #3478cf;
       --bg: #eef3f9;
       --white: #ffffff;
       --text: #172b4d;
       --muted: #64748b;
-      --border: #dbe5f1;
-      --header-height: 64px;
     }
 
     * {
@@ -38,9 +36,9 @@
       padding: 0;
       width: 100%;
       height: 100%;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: var(--bg);
       overflow: hidden;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--white);
     }
 
     body {
@@ -51,112 +49,13 @@
       min-height: 0;
     }
 
-    /* HEADER BIRU ELEGAN */
-    header {
-      position: relative;
-      z-index: 10;
-      flex-shrink: 0;
-      min-height: var(--header-height);
-
-      padding: 9px 20px;
-      padding-top: max(9px, env(safe-area-inset-top));
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-
-      color: var(--white);
-      background: linear-gradient(
-        120deg,
-        var(--primary-dark) 0%,
-        var(--primary) 55%,
-        var(--primary-light) 100%
-      );
-
-      border-bottom: 1px solid rgba(255,255,255,.15);
-      box-shadow: 0 3px 12px rgba(16,41,79,.20);
-    }
-
-    .brand-wrap {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .brand-icon {
-      width: 42px;
-      height: 42px;
-      flex-shrink: 0;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border: 1px solid rgba(255,255,255,.30);
-      border-radius: 12px;
-      background: rgba(255,255,255,.12);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
-    }
-
-    .brand-icon svg {
-      width: 25px;
-      height: 25px;
-      display: block;
-    }
-
-    .brand {
-      min-width: 0;
-      font-size: 16px;
-      font-weight: 750;
-      letter-spacing: .65px;
-      line-height: 1.35;
-      white-space: nowrap;
-    }
-
-    .brand small {
-      display: block;
-      margin-top: 3px;
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: .8px;
-      color: #dbeafe;
-      opacity: .95;
-    }
-
-    /* TOMBOL INSTAL */
-    #installBtn {
-      display: none;
-      flex-shrink: 0;
-
-      border: 1px solid rgba(255,255,255,.6);
-      border-radius: 10px;
-      padding: 10px 14px;
-
-      background: #ffffff;
-      color: var(--primary);
-      font-family: inherit;
-      font-size: 12px;
-      font-weight: 700;
-
-      cursor: pointer;
-      transition: background .2s, transform .2s;
-    }
-
-    #installBtn:hover {
-      background: #eaf2ff;
-      transform: translateY(-1px);
-    }
-
-    #installBtn:active {
-      transform: scale(.97);
-    }
-
-    /* AREA APLIKASI */
+    /* APLIKASI MEMENUHI SELURUH LAYAR */
     main {
       position: relative;
       flex: 1;
+      width: 100%;
+      height: 100%;
+      min-width: 0;
       min-height: 0;
       overflow: hidden;
       background: var(--white);
@@ -167,10 +66,12 @@
       width: 100%;
       height: 100%;
       border: 0;
+      margin: 0;
+      padding: 0;
       background: var(--white);
     }
 
-    /* LOADING */
+    /* LAYAR PEMUATAN */
     #loading {
       position: absolute;
       inset: 0;
@@ -180,14 +81,12 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 16px;
+      gap: 15px;
 
       padding: 24px;
       text-align: center;
-      color: var(--text);
       background: #f8fbff;
-
-      transition: opacity .25s ease;
+      color: var(--text);
     }
 
     #loading.hidden {
@@ -195,40 +94,37 @@
     }
 
     .loading-logo {
-      width: 66px;
-      height: 66px;
+      width: 68px;
+      height: 68px;
       display: flex;
       align-items: center;
       justify-content: center;
-
-      color: white;
-      background: linear-gradient(135deg, #163a70, #3478cf);
       border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(22,58,112,.20);
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      box-shadow: 0 8px 24px rgba(22, 58, 112, .20);
     }
 
     .loading-logo svg {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
     }
 
     .loading-title {
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 700;
       color: var(--primary);
     }
 
     .loading-subtitle {
       max-width: 280px;
-      margin-top: -8px;
       color: var(--muted);
       font-size: 12px;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     .spinner {
-      width: 27px;
-      height: 27px;
+      width: 28px;
+      height: 28px;
       border: 3px solid #dbeafe;
       border-top-color: var(--primary-light);
       border-radius: 50%;
@@ -236,71 +132,90 @@
     }
 
     @keyframes spin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
-    /* TAMPILAN TABLET DAN PONSEL */
+    /* TOMBOL INSTALASI MENGAMBANG */
+    #installBtn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+
+      position: fixed;
+      right: 22px;
+      bottom: max(22px, env(safe-area-inset-bottom));
+      z-index: 9999;
+
+      padding: 14px 20px;
+      border: 1px solid rgba(255, 255, 255, .3);
+      border-radius: 50px;
+
+      background: linear-gradient(
+        135deg,
+        var(--primary-dark),
+        var(--primary-light)
+      );
+
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .15px;
+
+      box-shadow: 0 6px 22px rgba(22, 58, 112, .32);
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s, opacity .2s;
+    }
+
+    #installBtn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 26px rgba(22, 58, 112, .38);
+    }
+
+    #installBtn:active {
+      transform: scale(.96);
+    }
+
+    #installBtn:focus-visible {
+      outline: 3px solid #93c5fd;
+      outline-offset: 3px;
+    }
+
+    #installBtn:disabled {
+      opacity: .7;
+      cursor: wait;
+    }
+
+    .install-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* TAMPILAN PONSEL */
     @media (max-width: 600px) {
-      :root {
-        --header-height: 57px;
-      }
-
-      header {
-        padding-left: 11px;
-        padding-right: 11px;
-        gap: 8px;
-      }
-
-      .brand-wrap {
-        gap: 9px;
-      }
-
-      .brand-icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 10px;
-      }
-
-      .brand-icon svg {
-        width: 22px;
-        height: 22px;
-      }
-
-      .brand {
-        font-size: 12px;
-        letter-spacing: .35px;
-      }
-
-      .brand small {
-        margin-top: 2px;
-        font-size: 9px;
-        letter-spacing: .5px;
-      }
-
       #installBtn {
-        padding: 9px 10px;
-        border-radius: 8px;
-        font-size: 11px;
+        right: 14px;
+        bottom: max(16px, env(safe-area-inset-bottom));
+        padding: 12px 16px;
+        font-size: 12px;
+        gap: 7px;
+      }
+
+      .install-icon {
+        width: 16px;
+        height: 16px;
       }
     }
 
     @media (max-width: 350px) {
-      .brand {
-        font-size: 10px;
-      }
-
-      .brand small {
-        font-size: 8px;
-      }
-
-      .brand-icon {
-        width: 32px;
-        height: 32px;
-      }
-
       #installBtn {
-        padding: 8px;
-        font-size: 10px;
+        right: 10px;
+        bottom: max(12px, env(safe-area-inset-bottom));
+        padding: 11px 14px;
       }
     }
 
@@ -316,9 +231,9 @@
 </head>
 
 <body>
-  <header>
-    <div class="brand-wrap">
-      <div class="brand-icon" aria-hidden="true">
+  <main>
+    <div id="loading" role="status" aria-live="polite">
+      <div class="loading-logo" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none"
              xmlns="http://www.w3.org/2000/svg">
           <path d="M4 20V8.5L12 4L20 8.5V20"
@@ -330,31 +245,6 @@
           <path d="M8 9H8.01M12 9H12.01M16 9H16.01"
                 stroke="#93C5FD" stroke-width="2.5"
                 stroke-linecap="round"/>
-        </svg>
-      </div>
-
-      <div class="brand">
-        DAFTAR HARGA FURNIFAN
-        <small>MEBEL SURABAYA</small>
-      </div>
-    </div>
-
-    <button id="installBtn" type="button">
-      ↓ Instal Aplikasi
-    </button>
-  </header>
-
-  <main>
-    <div id="loading" role="status" aria-live="polite">
-      <div class="loading-logo" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none"
-             xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 20V8.5L12 4L20 8.5V20"
-                stroke="white" stroke-width="1.6"
-                stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M8 20V13H16V20"
-                stroke="white" stroke-width="1.6"
-                stroke-linejoin="round"/>
         </svg>
       </div>
 
@@ -377,70 +267,109 @@
     </iframe>
   </main>
 
+  <!-- TOMBOL MENGAMBANG -->
+  <button id="installBtn" type="button">
+    <svg class="install-icon" viewBox="0 0 24 24"
+         fill="none" xmlns="http://www.w3.org/2000/svg"
+         aria-hidden="true">
+      <path d="M12 3V15M7 10L12 15L17 10"
+            stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M5 16V20H19V16"
+            stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>Instal Aplikasi</span>
+  </button>
+
   <script>
     /*
-      URL WEB APP KHUSUS DAFTAR HARGA FURNIFAN
-      Jangan gunakan URL aplikasi Catatan Kiriman.
+      URL WEB APP KHUSUS DAFTAR HARGA FURNIFAN.
+      Jangan menggantinya dengan URL aplikasi lain.
     */
     const APP_URL =
-      "https://script.google.com/macros/s/AKfycbxXO7QNfeFL8LlXmvbCdFOLTlKJk4upt2Nbn_7eRgmR2dArntQNKeCvluJ3aCFKOlbqTw/exec";
+      "https://script.google.com/macros/s/AKfycbxZuDolnexDtjynYWGDmisx3OM3EyFQYVE3p_cEGHt2Fz6uF7A8uCMAUrs0wiAUViWELQ/exec";
 
     const frame = document.getElementById("appFrame");
     const loading = document.getElementById("loading");
     const installBtn = document.getElementById("installBtn");
 
-    if (!APP_URL.startsWith("https://script.google.com/")) {
-      loading.querySelector(".loading-title").textContent =
-        "URL aplikasi belum benar";
-
-      loading.querySelector(".loading-subtitle").textContent =
-        "Periksa kembali URL Web App Google Apps Script.";
-    } else {
+    // Memuat aplikasi utama.
+    if (APP_URL.startsWith("https://script.google.com/")) {
       frame.src = APP_URL;
 
       frame.addEventListener("load", () => {
         loading.classList.add("hidden");
       });
+    } else {
+      loading.querySelector(".loading-title").textContent =
+        "URL aplikasi belum benar";
+
+      loading.querySelector(".loading-subtitle").textContent =
+        "Periksa URL Web App Google Apps Script.";
     }
 
-    // Instalasi PWA pada browser yang mendukung prompt instalasi.
+    // Dukungan instalasi PWA pada browser yang mendukungnya.
     let installPrompt = null;
 
     window.addEventListener("beforeinstallprompt", (event) => {
       event.preventDefault();
       installPrompt = event;
-      installBtn.style.display = "block";
     });
 
     installBtn.addEventListener("click", async () => {
-      if (!installPrompt) {
-        alert(
-          "Untuk memasang aplikasi, buka menu browser lalu pilih " +
-          "'Instal aplikasi' atau 'Tambahkan ke layar utama'."
-        );
+      if (installPrompt) {
+        const promptEvent = installPrompt;
+        installPrompt = null;
+        installBtn.disabled = true;
+
+        try {
+          await promptEvent.prompt();
+          await promptEvent.userChoice;
+        } catch (error) {
+          console.error("Instalasi PWA:", error);
+        } finally {
+          installBtn.disabled = false;
+        }
+
         return;
       }
 
-      installBtn.disabled = true;
+      // Petunjuk untuk browser yang tidak menyediakan prompt otomatis.
+      const ua = navigator.userAgent || "";
+      const isIOS = /iphone|ipad|ipod/i.test(ua);
+      const isAndroid = /android/i.test(ua);
 
-      try {
-        installPrompt.prompt();
-        await installPrompt.userChoice;
-      } catch (error) {
-        console.error("Proses instalasi:", error);
-      } finally {
-        installPrompt = null;
-        installBtn.style.display = "none";
-        installBtn.disabled = false;
+      if (isIOS) {
+        alert(
+          "Untuk memasang Daftar Harga Furnifan di iPhone/iPad:\n\n" +
+          "1. Buka situs ini melalui Safari.\n" +
+          "2. Tekan tombol Bagikan.\n" +
+          "3. Pilih Tambahkan ke Layar Utama.\n" +
+          "4. Tekan Tambah."
+        );
+      } else if (isAndroid) {
+        alert(
+          "Untuk memasang Daftar Harga Furnifan:\n\n" +
+          "1. Buka situs ini melalui Chrome.\n" +
+          "2. Buka menu ⋮.\n" +
+          "3. Pilih Instal aplikasi atau Tambahkan ke layar utama."
+        );
+      } else {
+        alert(
+          "Untuk memasang Daftar Harga Furnifan di PC:\n\n" +
+          "1. Buka situs ini melalui Chrome atau Edge.\n" +
+          "2. Buka menu browser.\n" +
+          "3. Pilih Instal aplikasi atau Install this site as an app."
+        );
       }
     });
 
     window.addEventListener("appinstalled", () => {
       installPrompt = null;
-      installBtn.style.display = "none";
     });
 
-    // Service worker khusus repository Daftar Harga.
+    // Service worker khusus aplikasi Daftar Harga Furnifan.
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker.register("./sw.js", {
